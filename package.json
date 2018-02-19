@@ -12,7 +12,9 @@
     "jasmine-node": "^1.14.5"
   },
   "dependencies": {
+    "dependencies": "0.0.1",
     "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
     "nodemon": "^1.14.12",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1"
