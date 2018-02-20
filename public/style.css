@@ -1,3 +1,7 @@
+body{
+    overflow:hidden;
+}
+
 .canvas{
     border:1px black dotted;
     position:absolute;
@@ -6,13 +10,17 @@
     left:0px;
     right:0px
 }
+#control-panel{
+    width: 120px;
+    height: 100vh;
+    border: 1px solid orange;
+    position: absolute;
+}
 
 #canvas-draft{
     background-color: transparent;
 }
-body{
-    overflow:hidden;
-}
+
 #canvas-container{
-    height:720px;
+    position: absolute;
 } 
