@@ -1,4 +1,4 @@
-const FacebookStrategy = require('passport-facebook').Strategy;
+/*const FacebookStrategy = require('passport-facebook').Strategy;
 require('dotenv').config();
 
 
@@ -11,4 +11,4 @@ module.exports = (passport) => {
             return cb(null,{profile:profile,accessToken:accessToken});
         }
     )); 
-}
+}*/
