@@ -13,6 +13,8 @@ const hb = require('express-handlebars');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
+
+require('dotenv').config();
 const knexFile = require('./knexfile').development;
 const knex = require('knex')(knexFile);
 
@@ -33,48 +35,82 @@ app.use(session({
 app.engine('handlebars', hb({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-
-    res.redirect('/login');
-}
 
 
-app.get('/login', (req, res) => {
-    res.render('login');
-});
 
-app.post('/login', passport.authenticate('local-login', {
+
+/*app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/canvas',
     failureRedirect: '/error'
-}));
+}));*/
+
 
 // =========================================================================
 //      PROCESS SIGN UP PAGE
 // =========================================================================
 
+function signUp(req, res, next){
+    console.log('Function signUp is called');
+    console.log('contents of req.value.body, req.value.body');
+}
+
+
+
 app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-app.post('/signup', passport.authenticate('local-login', {
-    successRedirect: '/canvas',
-    failureRedirect: '/error'
-}));
+app.post('/signup',signUp, (req, res) => {
+    res.render('signup');
+});
 
+
+// ==========================================================================
+//         PROCESS FACEBOOK LOGIN
+// ==========================================================================
+
+// send to facebook to do the authentication
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+// handle the callback after facebook has authenticated the user
+/*app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+        successRedirect :  '/canvas',
+        failureRedirect : '/error',
+        
+    })); */
+
+    app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function(req, res) {
+      // Successful authentication, redirect home.
+      res.redirect('/');
+    });
+
+    app.get('/', (req, res) => {
+       res.render('canvas');
+      });
+
+    /*function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+    
+        res.render('canvas');
+    }*/
+
+    
+    app.post('/', (req, res) => {
+        res.render('canvas');
+    });       
+
+
+// =========================================================================
 
 
 app.get('/error', (req, res) => {
     res.send('You are not logged in!');
 });
-
-app.get('/canvas', (req, res) => {
-    res.render('canvas');
-});
-
-
 
 console.log(`Hello ${serverUser.username}!`)
 
