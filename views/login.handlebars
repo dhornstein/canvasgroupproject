@@ -1,0 +1,47 @@
+<!DOCTYPE html >
+<html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+            
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        </head>
+        <body>
+            <br>
+            <h3>Please login to proceed to MyCANVAS</h3>
+            <br>
+            
+            
+            <form method="POST" action="/login">
+            <div class="form-group">
+                
+                <input type="text" name="id" class="form-control" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="text" name="id" class="form-control" placeholder="Password">
+            </div>
+
+            <input type="submit" class="btn btn-secondary" value="Log in">
+            </form>
+
+           
+            <p>or</p>
+            
+                <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=314971482240079&autoLogAppEvents=1';
+                fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+
+                <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+
+            
+            
+
+           
+        </body>
+    </html>

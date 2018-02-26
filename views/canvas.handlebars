@@ -1,0 +1,46 @@
+<!DOCTYPE html >
+<html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+            
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+            <link href="./style.css" rel="stylesheet" type='text/css'>
+        </head>
+        <body>
+
+            <div id="control-panel">
+               <span class="btn btn-primary fa fa-square" id="drawing-rectangle" >Drawing Rectangle</span>
+                <span class="btn btn-info fa fa-paint-brush" id="drawing-line" >Drawing Line</span>
+                <span class="btn btn-danger fa fa-circle" id="drawing-circle" >Drawing Circle</span> 
+            </div>
+           
+             <div id="canvas-container">
+                <canvas id="canvas-real" class="canvas" width='900px' height='500px'></canvas>
+                <canvas id="canvas-draft" class="canvas" width='900px' height='500px'></canvas>
+            </div>
+            
+           
+
+            <script type='text/javascript' src="https://code.jquery.com/jquery-3.2.1.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+            <script type='text/javascript' src="./canvas-common.js"></script>
+            <script type='text/javascript' src="./drawing-line.js"></script>
+            <script type='text/javascript' src="./drawing-rectangle.js"></script>
+            <script type='text/javascript' src="./drawing-circle.js"></script>
+            <script type='text/javascript'>
+                $('#drawing-rectangle').click(()=>{
+                    currentFunction = new DrawingRectangle(contextReal,contextDraft);
+                });
+                $('#drawing-line').click(()=>{
+                    currentFunction = new DrawingLine(contextReal,contextDraft);
+                });
+                $('#drawing-circle').click(()=>{
+                    currentFunction = new DrawingCircle(contextReal,contextDraft);
+                });
+                currentFunction = new DrawingRectangle(contextReal,contextDraft);    
+            </script>
+        </body>
+    </html>

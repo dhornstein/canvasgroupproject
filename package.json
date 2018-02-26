@@ -12,9 +12,18 @@
     "jasmine-node": "^1.14.5"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "dependencies": "0.0.1",
+    "dotenv": "^5.0.0",
     "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "knex": "^0.14.4",
+    "morgan": "^1.9.0",
     "nodemon": "^1.14.12",
     "passport": "^0.4.0",
-    "passport-facebook": "^2.1.1"
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0",
+    "pg": "^7.4.1"
   }
 }
