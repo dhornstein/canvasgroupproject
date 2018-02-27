@@ -38,3 +38,12 @@ canvas:hover {
 #pan_zoom {
   border: 1px black dotted;
 }
+
+.container {
+  margin: 0px;
+  padding: 0px;
+}
+
+.navbar {
+  padding: 0px;
+}

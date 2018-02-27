@@ -14,7 +14,6 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 
-require('dotenv').config()
 
 //const redis = require('redis');
 
@@ -143,6 +142,11 @@ function isLoggedIn(req, res, next) {
 
     res.render('/');
 }
+
+// to logout
+app.get('/logout', (req, res) => {
+    res.render('logout');
+});
 
 // =========================================================================
 
