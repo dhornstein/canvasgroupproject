@@ -1,0 +1,89 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+        crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
+    <link href="./css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body cz-shortcut-listen="true">
+    <!--listen to jquery events?!-->
+
+    <div id="canvas-container">
+        <canvas id="canvas-real" class="canvas"></canvas>
+        <canvas id="canvas-draft" class="canvas"></canvas>
+    </div>
+    <div class="buttons">
+        <span class="btn btn-info btn-sm fa fa-paint-brush" id="drawing-line"></span>
+        <span class="btn btn-info btn-sm fa fa-square" id="drawing-rectangle"></span>
+        <span class="btn btn-info btn-sm fa fa-circle" id="drawing-circle"></span>
+        <span class="btn btn-info btn-sm fa fa-eraser" id="eraser"></span>
+        <span class="btn btn-info btn-sm fa fa-pencil" id="drawing-straightLine"></span>
+        <span class="btn btn-info btn-sm fa fa-star-half-o" id="drawing-polygon"></span>
+        <span class="btn btn-info btn-sm fa fa-trash" id="clear"></span>
+        <label id="image" class="btn btn-info fa fa-picture-o">
+            <input id="secimage" type="file" onchange="handleFiles(files)">
+        </label>
+        <button class="btn btn-info btn-sm fa fa-caret-square-o-down" onclick="invertColor();"></button>
+        <button class="btn btn-info btn-sm fa fa-toggle-on" onclick="greyScale();"></button>
+        <button class="btn btn-info btn-sm fa fa-sun-o" onclick="brighten();"></button>
+        <button class="btn btn-info btn-sm fa fa-window-restore" onclick="threshold();"></button>
+        <button class="btn btn-info btn-sm fa fa-undo" onclick="recover();"></button>
+        <button class="btn btn-info btn-sm fa fa-floppy-o" onclick="saveFile();"></button>
+        <a id="download"></a>
+
+        <!-- bg color -->
+        <label for="color-input" id="color-label" style="background-color: red; border: 2px dotted white; text-align: center; color: white; font-size: 4px;">B</label>
+        <input type="checkbox" id="color-input"></input>
+        <div id="color-picker">
+            <canvas id="color-block" height="50" width="50"></canvas>
+            <canvas id="color-strip" height="50" width="20"></canvas>
+        </div>
+
+        <!-- fill color -->
+        <label for="fill" id="fill-label" style="background-color: blue; border: 2px dotted white; text-align: center; color: white;font-size: 4px;">F</label>
+        <input type="checkbox" id="fill"></input>
+        <div id="fill-picker">
+            <canvas id="fill-block" height="50" width="50"></canvas>
+            <canvas id="fill-strip" height="50" width="20"></canvas>
+        </div>
+        
+        <!-- stroke color -->
+        <label for="stroke" id="stroke-label" style="background-color: green; border: 2px dotted white; text-align: center; color: white;font-size: 4px;">S</label>
+        <input type="checkbox" id="stroke"></input>
+        <div id="stroke-picker">
+            <canvas id="stroke-block" height="50" width="50"></canvas>
+            <canvas id="stroke-strip" height="50" width="20"></canvas>
+        </div>
+    </div>
+
+    <div id="doge"></div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./js/canvas-common.js"></script>
+    <script type="text/javascript" src="./js/drawing-line.js"></script>
+    <script type="text/javascript" src="./js/drawing-rectangle.js"></script>
+    <script type='text/javascript' src="./js/drawing-straightLine.js"></script>
+    <script type="text/javascript" src="./js/drawing-circle.js"></script>
+    <script type="text/javascript" src="./js/eraser.js"></script>
+    <script type="text/javascript" src="./js/drawing-Polygon.js"></script>
+    <script type="text/javascript" src="./js/image.js"></script>
+    <script type="text/javascript" src="./js/paintFunctions.js"></script>
+    <script type="text/javascript" src="./js/bg.js"></script>
+    <script type="text/javascript" src="./js/fill.js"></script>
+    <script type="text/javascript" src="./js/stroke.js"></script>
+    <script type="text/javascript" src="./js/doge.js"></script>
+
+</body>
+
+</html>
