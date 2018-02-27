@@ -13,16 +13,16 @@ const hb = require('express-handlebars');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
-const redis = require('redis');
+//const redis = require('redis');
 
 require('dotenv').config();
 const knexFile = require('./knexfile').development;
 const knex = require('knex')(knexFile);
 
-let client = redis.createClient();
+/*let client = redis.createClient();
 client.on('connect', function(){
     console.log('Connected to redis....');
-});
+});*/
 
 
 var path = require('path');
@@ -55,11 +55,6 @@ passport.deserializeUser((user, done) => {
 // =========================================================================
 //      PROCESS SIGN UP PAGE
 // =========================================================================
-
-/*function signUp(req, res, next) {
-    console.log('Function signUp is called');
-    console.log('req.value.body');
-};*/
 
 app.get('/signup', (req, res, next) => {
     res.render('signup');
@@ -120,6 +115,11 @@ function isLoggedIn(req, res, next) {
     res.render('/');
 }
 
+// to logout
+app.get('/logout', (req, res) => {
+    res.render('logout');
+});
+
 // =========================================================================
 
 
@@ -129,5 +129,5 @@ app.get('/error', (req, res) => {
 
 console.log(`Hello ${serverUser.username}!`)
 
-app.listen(8080);
-console.log('You are listening to port 8080');
+app.listen(8000);
+console.log('You are listening to port 8000');
