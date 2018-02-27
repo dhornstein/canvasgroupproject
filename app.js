@@ -13,24 +13,25 @@ const hb = require('express-handlebars');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
-const redis = require('redis');
+
+require('dotenv').config()
+
+//const redis = require('redis');
 
 require('dotenv').config();
 const knexFile = require('./knexfile').development;
 const knex = require('knex')(knexFile);
 
-let client = redis.createClient();
+/*let client = redis.createClient();
 client.on('connect', function(){
     console.log('Connected to redis....');
-});
+}); */
 
 
 var path = require('path');
 var serverUser = os.userInfo();
 
-
-app.use(express.static(__dirname+'/public'));
-
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(session({
@@ -56,10 +57,10 @@ passport.deserializeUser((user, done) => {
 //      PROCESS SIGN UP PAGE
 // =========================================================================
 
-/*function signUp(req, res, next) {
+function signUp(req, res, next) {
     console.log('Function signUp is called');
     console.log('req.value.body');
-};*/
+};
 
 app.get('/signup', (req, res, next) => {
     res.render('signup');
@@ -70,9 +71,7 @@ app.post('/signup', function (req, res, next) {
     let last_name = req.body.last_name;
     let email = req.body.email;
     let password = req.body.password;
-      {
-          return console.log(json);
-      }
+     
     });
     
 
@@ -87,15 +86,40 @@ app.post('/signup', function (req, res, next) {
 app.use(passport.initialize());
     app.use(passport.session());
 
+    console.log(process.env.FACEBOOK_ID);
+
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     callbackURL: `/auth/facebook/callback`
 }, (accessToken, refreshToken, profile, cb) => {
-    console.log(profile);
-    return cb(null, { profile: profile, accessToken: accessToken });
-}
-));
+    console.log(profile.id);
+    //return cb(null, { profile: profile, accessToken: accessToken });
+    knex.insert({username: profile.displayName, facebook_id: profile.id}).into('facebook_signin_users').then(console.log('Succeed'))
+}))
+    /*.then((user) => {
+        //facebook user exists in database
+        if (user.length) {
+            return done(null, {user: user[0], accessToken: accessToken});
+        }
+        //new fb user
+        return knex('facebook_signin_users')
+        .returning('id')
+        .insert({
+            facebook_id: facebook_id,
+            username: username,
+        }).then((id) =>{
+            console.log(id[0]);
+            return knex('facebook_signin_users').select().where('id', id[0])
+            .then((user) => {
+                return done(null, {user: user[0], accessToken: accessToken});
+            })
+        }).catch((err) => {
+            console.log(err);
+        });
+    })
+} 
+));*/
 
 // send to facebook to do the authentication
 app.get('/auth/facebook',
@@ -122,6 +146,10 @@ function isLoggedIn(req, res, next) {
 
 // =========================================================================
 
+app.get('/logout', (req, res) => {
+    res.render('logout');
+});
+
 
 app.get('/error', (req, res) => {
     res.send('You are not logged in!');
@@ -129,5 +157,5 @@ app.get('/error', (req, res) => {
 
 console.log(`Hello ${serverUser.username}!`)
 
-app.listen(8080);
-console.log('You are listening to port 8080');
+app.listen(8000);
+console.log('You are listening to port 8000');
