@@ -23,7 +23,9 @@ const knex = require('knex')(knexFile);
 var path = require('path');
 var serverUser = os.userInfo();
 
-app.use(express.static('public'));
+
+app.use(express.static(__dirname+'/public'));
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(session({
