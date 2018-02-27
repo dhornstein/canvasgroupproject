@@ -1,4 +1,5 @@
 // Optional file. Created just for testing purposes on postman
+//Joi - for local login to ensure they are valid and not invalid entries
 
 
 const Joi = require('joi');
