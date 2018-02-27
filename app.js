@@ -35,21 +35,21 @@ app.use(session({
 app.engine('handlebars', hb({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
 
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});
 
-
-
-/*app.post('/login', passport.authenticate('local-login', {
-    successRedirect: '/canvas',
-    failureRedirect: '/error'
-}));*/
 
 
 // =========================================================================
 //      PROCESS SIGN UP PAGE
 // =========================================================================
 
-function signUp(req, res, next){
+function signUp(req, res, next) {
     console.log('Function signUp is called');
     console.log('contents of req.value.body, req.value.body');
 }
@@ -60,7 +60,7 @@ app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-app.post('/signup',signUp, (req, res) => {
+app.post('/signup', signUp, (req, res) => {
     res.render('signup');
 });
 
@@ -69,41 +69,41 @@ app.post('/signup',signUp, (req, res) => {
 //         PROCESS FACEBOOK LOGIN
 // ==========================================================================
 
+app.use(passport.initialize());
+    app.use(passport.session());
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    callbackURL: `/auth/facebook/callback`
+}, (accessToken, refreshToken, profile, cb) => {
+    console.log(profile);
+    return cb(null, { profile: profile, accessToken: accessToken });
+}
+));
+
 // send to facebook to do the authentication
-app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+app.get('/auth/facebook',
+    passport.authenticate('facebook'));
 
-// handle the callback after facebook has authenticated the user
-/*app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-        successRedirect :  '/canvas',
-        failureRedirect : '/error',
-        
-    })); */
-
-    app.get('/auth/facebook/callback',
+app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
-    function(req, res) {
-      // Successful authentication, redirect home.
-      res.redirect('/');
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/canvas');
     });
 
-    app.get('/', (req, res) => {
-       res.render('canvas');
-      });
+app.get('/canvas', (req, res) => {
+    res.render('canvas');
+});
 
-    /*function isLoggedIn(req, res, next) {
-        if (req.isAuthenticated()) {
-            return next();
-        }
-    
-        res.render('canvas');
-    }*/
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
 
-    
-    app.post('/', (req, res) => {
-        res.render('canvas');
-    });       
-
+    res.render('/');
+}
 
 // =========================================================================
 
