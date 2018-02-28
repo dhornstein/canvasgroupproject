@@ -1,0 +1,45 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="todo.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <br>
+    <br>
+    <ul class="rolldown-list" id="myList">
+        <li>Insert the base64 data to database with user_id (req.user.id)</li>
+        <li>Query the database to get the array of the base64 saved for that user</li>
+        <li>Render and reload the image: img src="`base64`" in the HTML</li>
+        <li>Load and run on external server using Digital Ocean</li>
+        <li>Integrate Google Login</li>
+        <li>Streamline the design of the website and fix Canvas bugs</li>
+        <li>***Is this a viable way of doing the POST?: var express = require('express'); var path = require('path'); var app =
+            express(); var bodyParser = require('body-parser'); app.use(bodyParser.json()); app.post('/read_file', function(req,
+            res) { console.log(req.body); });***
+        </li>
+        <li>...never use a Doge again for a project!</li>
+    </ul>
+
+
+    <script>// Increments the delay on each item.
+        $('.rolldown-list li').each(function () {
+            var delay = ($(this).index() / 4) + 's';
+            $(this).css({
+                webkitAnimationDelay: delay,
+                mozAnimationDelay: delay,
+                animationDelay: delay
+            });
+        });</script>
+</body>
+
+</html>

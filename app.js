@@ -159,6 +159,12 @@ app.get('/logout', (req, res) => {
     res.render('logout');
 });
 
+//to todo
+app.get('/todo', (req, res) => {
+    res.render('todo');
+});
+
+
 // to save image
 
 app.post('/uploads', urlencodedParser, function(req,res){
