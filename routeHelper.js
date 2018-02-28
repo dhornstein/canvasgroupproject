@@ -2,7 +2,7 @@
 //Joi - for local login to ensure they are valid and not invalid entries
 
 
-const Joi = require('joi');
+/*const Joi = require('joi');
 
 module.exports = {
     validateBody: (schema) => {
@@ -24,4 +24,4 @@ module.exports = {
         password: Joi.string().required()
       })
     }
-  }
+  } */

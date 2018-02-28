@@ -38,9 +38,12 @@ app.use(session({
 }));
 
 
-// View Engine ============================================================
+// ====================================================================
+//          SET VIEW ENGINE
+// ====================================================================
 app.engine('handlebars', hb({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
+
 
 passport.serializeUser((user, done) => {
     done(null, user);
@@ -70,9 +73,9 @@ app.post('/signup', function (req, res, next) {
     let last_name = req.body.last_name;
     let email = req.body.email;
     let password = req.body.password;
-     
-    });
-    
+
+});
+
 
 
 
@@ -83,40 +86,46 @@ app.post('/signup', function (req, res, next) {
 // ==========================================================================
 
 app.use(passport.initialize());
-    app.use(passport.session());
+app.use(passport.session());
 
-    console.log(process.env.FACEBOOK_ID);
+console.log(process.env.FACEBOOK_ID);
 
-passport.use(new FacebookStrategy({
+passport.use(new FacebookStrategy(
+    {
     clientID: process.env.FACEBOOK_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     callbackURL: `/auth/facebook/callback`
-}, (accessToken, refreshToken, profile, cb) => {
+}, 
+(accessToken, refreshToken, profile, cb) => 
+{
     console.log(profile.id);
-    //return cb(null, { profile: profile, accessToken: accessToken });
-    knex.insert({username: profile.displayName, facebook_id: profile.id}).into('facebook_signin_users').then(console.log('Succeed'))
-}))
-    /*.then((user) => {
-        //facebook user exists in database
-        if (user.length) {
-            return done(null, {user: user[0], accessToken: accessToken});
-        }
-        //new fb user
-        return knex('facebook_signin_users')
-        .returning('id')
-        .insert({
-            facebook_id: facebook_id,
-            username: username,
-        }).then((id) =>{
-            console.log(id[0]);
-            return knex('facebook_signin_users').select().where('id', id[0])
-            .then((user) => {
-                return done(null, {user: user[0], accessToken: accessToken});
-            })
-        }).catch((err) => {
-            console.log(err);
-        });
+    knex.insert({ username: profile.displayName, facebook_id: profile.id }).into('facebook_signin_users')
+    .then(function (ids){
+        cb(null, { profile: profile, accessToken: accessToken });
     })
+}
+));
+/*.then((user) => {
+    //facebook user exists in database
+    if (user.length) {
+        return done(null, {user: user[0], accessToken: accessToken});
+    }
+    //new fb user
+    return knex('facebook_signin_users')
+    .returning('id')
+    .insert({
+        facebook_id: facebook_id,
+        username: username,
+    }).then((id) =>{
+        console.log(id[0]);
+        return knex('facebook_signin_users').select().where('id', id[0])
+        .then((user) => {
+            return done(null, {user: user[0], accessToken: accessToken});
+        })
+    }).catch((err) => {
+        console.log(err);
+    });
+})
 } 
 ));*/
 
@@ -140,7 +149,7 @@ function isLoggedIn(req, res, next) {
         return next();
     }
 
-    res.render('/');
+    res.render('/canvas');
 }
 
 // to logout
@@ -150,9 +159,7 @@ app.get('/logout', (req, res) => {
 
 // =========================================================================
 
-app.get('/logout', (req, res) => {
-    res.render('logout');
-});
+
 
 
 app.get('/error', (req, res) => {
