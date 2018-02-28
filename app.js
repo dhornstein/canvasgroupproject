@@ -13,7 +13,7 @@ const hb = require('express-handlebars');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
-const urlencodedParser = bodyParser.urlencoded({extended:false}); //middleware
+const urlencodedParser = bodyParser.urlencoded({ extended: false }); //middleware
 
 
 
@@ -94,42 +94,26 @@ console.log(process.env.FACEBOOK_ID);
 
 passport.use(new FacebookStrategy(
     {
-    clientID: process.env.FACEBOOK_ID,
-    clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    callbackURL: `/auth/facebook/callback`
-}, 
-(accessToken, refreshToken, profile, cb) => 
-{
-    console.log(profile.id);
-    knex.insert({ username: profile.displayName, facebook_id: profile.id }).into('facebook_signin_users')
-    .then(function (ids){
-        cb(null, { profile: profile, accessToken: accessToken });
-    })
-}
-));
-/*.then((user) => {
-    //facebook user exists in database
-    if (user.length) {
-        return done(null, {user: user[0], accessToken: accessToken});
-    }
-    //new fb user
-    return knex('facebook_signin_users')
-    .returning('id')
-    .insert({
-        facebook_id: facebook_id,
-        username: username,
-    }).then((id) =>{
-        console.log(id[0]);
-        return knex('facebook_signin_users').select().where('id', id[0])
-        .then((user) => {
-            return done(null, {user: user[0], accessToken: accessToken});
+        clientID: process.env.FACEBOOK_ID,
+        clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL: `/auth/facebook/callback`
+    },
+    (accessToken, refreshToken, profile, cb) => {
+        console.log(profile.id);
+        
+        let query = knex.select("username", "facebook_id").from('facebook_signin_users').where('facebook_id', profile.id);
+        query.then(rows => {
+            if (rows.length < 1) {
+                knex.insert({ username: profile.displayName, facebook_id: profile.id }).into('facebook_signin_users')
+                    .then(function (id) {
+                        cb(null, { profile: profile, accessToken: accessToken });
+                    });
+            }
+            else {
+                cb(null, { profile: profile, accessToken: accessToken });
+            }
         })
-    }).catch((err) => {
-        console.log(err);
-    });
-})
-} 
-));*/
+    }));
 
 // send to facebook to do the authentication
 app.get('/auth/facebook',
@@ -167,9 +151,9 @@ app.get('/todo', (req, res) => {
 
 // to save image
 
-app.post('/uploads', urlencodedParser, function(req,res){
+app.post('/uploads', urlencodedParser, function (req, res) {
     console.log(req.body.imgBase64);
-    });
+});
 
 
 // =========================================================================
