@@ -1,7 +1,3 @@
-// app.js
-
-// Set up ==============================================================
-
 const express = require('express');
 const app = express();
 const fs = require('fs');
@@ -16,17 +12,10 @@ const LocalStrategy = require('passport-local').Strategy;
 const urlencodedParser = bodyParser.urlencoded({ extended: false }); //middleware
 
 
-
-//const redis = require('redis');
-
 require('dotenv').config();
 const knexFile = require('./knexfile').development;
 const knex = require('knex')(knexFile);
 
-/*let client = redis.createClient();
-client.on('connect', function(){
-    console.log('Connected to redis....');
-}); */
 
 
 var path = require('path');
@@ -47,6 +36,13 @@ app.engine('handlebars', hb({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 
+
+// =====================================================================
+//          PASSPORT INIT
+// =====================================================================
+app.use(passport.initialize());
+app.use(passport.session());
+
 passport.serializeUser((user, done) => {
     done(null, user);
 });
@@ -57,39 +53,14 @@ passport.deserializeUser((user, done) => {
 
 
 
-// =========================================================================
-//      PROCESS SIGN UP PAGE
-// =========================================================================
-
-function signUp(req, res, next) {
-    console.log('Function signUp is called');
-    console.log('req.value.body');
-};
-
-app.get('/signup', (req, res, next) => {
-    res.render('signup');
-});
-
-app.post('/signup', function (req, res, next) {
-    let first_name = req.body.first_name;
-    let last_name = req.body.last_name;
-    let email = req.body.email;
-    let password = req.body.password;
-
-});
-
-
-
-
-
-
 // ==========================================================================
 //         PROCESS FACEBOOK LOGIN
 // ==========================================================================
 
-app.use(passport.initialize());
-app.use(passport.session());
 
+app.get('/', (req, res) => {
+    res.render('signup');
+});
 console.log(process.env.FACEBOOK_ID);
 
 passport.use(new FacebookStrategy(
@@ -101,10 +72,10 @@ passport.use(new FacebookStrategy(
     (accessToken, refreshToken, profile, cb) => {
         console.log(profile.id);
         
-        let query = knex.select("username", "facebook_id").from('facebook_signin_users').where('facebook_id', profile.id);
+        let query = knex.select("username", "facebook_id").from('users').where('facebook_id', profile.id);
         query.then(rows => {
             if (rows.length < 1) {
-                knex.insert({ username: profile.displayName, facebook_id: profile.id }).into('facebook_signin_users')
+                knex.insert({ username: profile.displayName, facebook_id: profile.id }).into('users')
                     .then(function (id) {
                         cb(null, { profile: profile, accessToken: accessToken });
                     });
@@ -134,25 +105,28 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-
     res.render('/canvas');
 }
+// =======================================================================
+//               TO SAVE IMAGE
+// =======================================================================
 
-// to logout
-app.get('/logout', (req, res) => {
-    res.render('logout');
+
+app.post('/uploads', urlencodedParser, function (req, res) {
+    
+    //return knex.insert({ canvas_content: req.body.imgBase64, facebook_id: profile.id}).into('canvas');
+    
+    console.log(req.body.imgBase64);
 });
+
+        
+
+// =========================================================================
+
 
 //to todo
 app.get('/todo', (req, res) => {
     res.render('todo');
-});
-
-
-// to save image
-
-app.post('/uploads', urlencodedParser, function (req, res) {
-    console.log(req.body.imgBase64);
 });
 
 
