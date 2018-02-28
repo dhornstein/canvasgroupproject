@@ -13,6 +13,8 @@ const hb = require('express-handlebars');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
+const urlencodedParser = bodyParser.urlencoded({extended:false}); //middleware
+
 
 
 //const redis = require('redis');
@@ -157,10 +159,14 @@ app.get('/logout', (req, res) => {
     res.render('logout');
 });
 
+// to save image
+
+app.post('/uploads', urlencodedParser, function(req,res){
+    console.log(req.body.imgBase64);
+    });
+
+
 // =========================================================================
-
-
-
 
 app.get('/error', (req, res) => {
     res.send('You are not logged in!');
